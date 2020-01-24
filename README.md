@@ -42,6 +42,7 @@
 
 Signature | Description
 --- | ---
+`constructor(root:DOMElement, icon:String, type:String) => void` | root: element that will contain the icon, icon: the @mdi/js icon, optional type of icon - a or button.
 `addClass(cssClass:String) => void` | Add css class to the icon.
 `attach(d:String) => void` | Build icon and attach to DOM
 `setAttribute(name:String, value: Object) => void` | Set an attribute value on the icon container (anchor (a) element).

@@ -17,8 +17,10 @@ import {MDCRipple} from '@material/ripple';
 /* beautify ignore:end */
 
 /**
- * Build material icon and attach to DOM
- * <a class="mdc-icon-button" href="#"
+ * Build material icon and attach to DOM.
+ *
+ * For type="a":
+ * <a class="mdc-icon-button" href="#" [target="_blank"]
  *  title="..."
  *  data-mdc-ripple-is-unbounded="true"
  *  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
@@ -26,6 +28,17 @@ import {MDCRipple} from '@material/ripple';
  *    <path d="{@mdi/js icon}"/>
  *  </svg>
  * </a>
+ *
+ * For type="button":
+ * <button type="button" class="mdc-icon-button"
+ *  data-ear-href="#" [data-ear-target="_blank"]
+ *  title="..."
+ *  data-mdc-ripple-is-unbounded="true"
+ *  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+ *    <path d="M0 0h24v24H0z" fill="none"/>
+ *    <path d="{@mdi/js icon}"/>
+ *  </svg>
+ * </button>
  *
  * Usage example:
  *
@@ -43,12 +56,26 @@ export class EARMaterialIcon {
    * Build the icon and append to the root element
    * @param {DOMElement} root The DOM element to append the icon to.
    * @param {String} icon The @mdi/js icon path information
+   * @param {String} type The element type - a or button. Default: a (anchor).
    */
-  constructor(root, icon) {
+  constructor(root, icon, type = "a") {
     this.container;
     this.icon;
     this.root = root;
-    this.attach(icon);
+    this.type = type.toLowerCase();
+    switch (this.type) {
+      case "a":
+        this.attach(icon);
+        break;
+      case "button":
+        this.attach(icon);
+        this.listen("click", event => {
+          this.clickHandler(event);
+        });
+        break;
+      default:
+        throw new Error(`EARMaterialIconException: Illegal container type - "${type}". Valid values are a and button.`);
+    }
   }
 
   /**
@@ -64,10 +91,18 @@ export class EARMaterialIcon {
    * @param {String} d The @mdi/js icon (path d attribute)
    */
   attach(d) {
-    this.container = document.createElement("a");
+    this.container = document.createElement(this.type);
     this.container.classList.add("mdc-icon-button");
     this.container.setAttribute("data-mdc-ripple-is-unbounded", true);
-    this.container.href = '#';
+    if (this.type == "button") {
+      this.container.setAttribute("type", this.type);
+    }
+    Object.defineProperty(this.container, "EARMaterialIcon", {
+      configurable: true,
+      enumerable: true,
+      value: this,
+      writable: true
+    });
 
     const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
     const path1 = document.createElementNS("http://www.w3.org/2000/svg", 'path');
@@ -93,6 +128,30 @@ export class EARMaterialIcon {
     iconButtonRipple.unbounded = true;
   }
 
+/**
+ * Handle icon click if container is a button element.
+ * Creates an anchor link from data-ear-href and fires click on it.
+ * @param  {Object} event The event object
+ */
+  clickHandler(event) {
+    event.preventDefault();
+    const a = document.createElement("a");
+    a.href = event.currentTarget.dataset.earHref;
+    a.setAttribute("target", event.currentTarget.dataset.earTarget);
+    a.click();
+  }
+
+  /**
+   * Add an event listener
+   * @param  {String} evtType The event type
+   * @param  {Function} handler The function invoked when the event triggers
+   * @param  {Object} options An options object that specifies characteristics
+   *                          about the event listener.
+   */
+  listen (evtType, handler, options) {
+      this.container.addEventListener(evtType, handler, options);
+  }
+
   /**
    * Set an attribute value on the icon container (anchor (a) element)
    * @param {String} name  The attribute name
@@ -109,7 +168,11 @@ export class EARMaterialIcon {
    * @param {String} url The href value
    */
   setHref(url) {
-    this.container.href = url;
+    if (this.type == "a") {
+      this.container.href = url;
+    } else {
+      this.container.setAttribute("data-ear-href", url);
+    }
     if (url.startsWith("http")) {
       this.setTarget("_blank");
     }
@@ -121,7 +184,11 @@ export class EARMaterialIcon {
    * @param {String} target The target value
    */
   setTarget(target) {
-    this.container.setAttribute("target", target);
+    if (this.type == "a") {
+      this.container.setAttribute("target", target);
+    } else {
+      this.container.setAttribute("data-ear-target", target);
+    }
   }
 
   /**
@@ -130,6 +197,17 @@ export class EARMaterialIcon {
    */
   setTitle(title) {
     this.container.setAttribute("title", title);
+  }
+
+  /**
+   * Remove an event listener
+   * @param  {String} evtType The event type
+   * @param  {Function} handler The function invoked when the event triggers
+   * @param  {Object} options An options object that specifies characteristics
+   *                          about the event listener.
+   */
+  unlisten(evtType, handler, options) {
+      this.container.removeEventListener(evtType, handler, options);
   }
 
 }
