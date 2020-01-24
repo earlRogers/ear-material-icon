@@ -2,14 +2,14 @@
  Build Google Material Icon using @mdi/js icons
 
  ```
- npm install ear-material-icon
+ npm install earlRogers/ear-material-icon
  ```
 
  ### JavaScript Instantiation
 
  ```js
 
- import {EARMaterialIcon} from 'ear-material-icon';
+ import {EARMaterialIcon} from 'earlRogers/ear-material-icon';
  import {mdiDogSide} from "@mdi/js";
 
  const el = document.querySelector(".icon-container");
