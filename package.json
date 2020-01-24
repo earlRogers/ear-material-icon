@@ -15,6 +15,7 @@
     "@babel/preset-env": "^7.8.3",
     "@babel/register": "^7.8.3",
     "autoprefixer": "^9.7.4",
+    "core-js": "^3.6.4",
     "eslint": "^6.8.0",
     "gulp": "^4.0.2",
     "gulp-babel": "^8.0.0",
@@ -39,8 +40,7 @@
     "@material/density": "^4.0.0",
     "@material/icon-button": "^4.0.0",
     "@material/ripple": "^4.0.0",
-    "@mdi/js": "^4.8.95",
-    "core-js": "^3.6.4"
+    "@mdi/js": "^4.8.95"
   },
   "browserslist": [
     "> 0.25%, not dead"
