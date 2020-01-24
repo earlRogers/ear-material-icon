@@ -7,7 +7,7 @@
   "main": "ear-material-icon.min.js",
   "module": "index.js",
   "license": "MIT",
-  "private": true,
+  "private": false,
   "devDependencies": {
     "@babel/cli": "^7.8.3",
     "@babel/core": "^7.8.3",
