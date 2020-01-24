@@ -9,7 +9,7 @@
 
  ```js
 
- import {EARMaterialIcon} from 'earlRogers/ear-material-icon';
+ import {EARMaterialIcon} from 'ear-material-icon';
  import {mdiDogSide} from "@mdi/js";
 
  const el = document.querySelector(".icon-container");
@@ -22,7 +22,7 @@
  ### Styles
 
  ```scss
- @import "ear-material-icon/icon-button/ear-material-icon";
+ @import "ear-material-icon/ear-material-icon";
  ```
 
  ### HTML Structure
