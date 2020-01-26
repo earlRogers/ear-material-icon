@@ -6,3 +6,4 @@ rollup.config.js
 .eslintrc.json
 .git*
 .languagebabel
+ear.test**

@@ -1,13 +1,17 @@
 {
-  "name": "ear-material-icon",
-  "version": "1.0.0",
-  "description": "Build Google Material Icon using @mdi/js icons",
-  "deprecated": false,
+  "alias": {
+    "@material": "./node_modules/@material",
+    "@mdi": "./node_modules/@mdi"
+  },
+  "author": {
+    "name": "Earl Rogers"
+  },
   "browser": "ear-material-icon.min.js",
-  "main": "ear-material-icon.min.js",
-  "module": "index.js",
-  "license": "MIT",
-  "private": false,
+  "browserslist": [
+    "> 0.25%, not dead"
+  ],
+  "deprecated": false,
+  "description": "Build Google MDC Icon Button (@material/icon-button) using material-design-icons or @mdi/js icons",
   "devDependencies": {
     "@babel/cli": "^7.8.3",
     "@babel/core": "^7.8.3",
@@ -19,7 +23,9 @@
     "eslint": "^6.8.0",
     "gulp": "^4.0.2",
     "gulp-babel": "^8.0.0",
+    "gulp-beautify": "^3.0.0",
     "gulp-cli": "^2.2.0",
+    "gulp-rename": "^2.0.0",
     "postcss": "^7.0.26",
     "postcss-clean": "^1.1.0",
     "rollup": "^1.29.1",
@@ -40,13 +46,25 @@
     "@material/density": "^4.0.0",
     "@material/icon-button": "^4.0.0",
     "@material/ripple": "^4.0.0",
-    "@mdi/js": "^4.8.95"
+    "@mdi/js": "^4.8.95",
+    "material-design-icons": "^3.0.1"
   },
-  "browserslist": [
-    "> 0.25%, not dead"
+  "homepage": "https://github.com/earlRogers/ear-material-icon/blob/master/README.md",
+  "keywords": [
+    "material components",
+    "material design",
+    "icon button",
+    "mdi"
   ],
-  "alias": {
-    "@material": "./node_modules/@material",
-    "@mdi": "./node_modules/@mdi"
-  }
+  "main": "ear-material-icon.js",
+  "module": "index.js",
+  "name": "ear-material-icon",
+  "license": "MIT",
+  "private": false,
+  "repository": {
+    "type": "git",
+    "url": "git+hhttps://github.com/earlRogers/ear-material-icon.git",
+    "directory": "packages/ear-material-icon"
+  },
+  "version": "1.0.0"
 }

@@ -19,7 +19,17 @@ import {MDCRipple} from '@material/ripple';
 /**
  * Build material icon and attach to DOM.
  *
- * For type="a":
+ * The icon source can be an svg (e.g., material-design-icons)
+ * or a svg path.d attribute (@mdi/js).In the latter case,
+ * the complete svg will be built.
+ *
+ * The icon will be inserted into a Material Design
+ * MDC Icon Button (@material/icon-button) and appended
+ * to a root element passed to the constructor.
+ * The MDC Icon Button can be used with <button> and <a> tags.
+ *
+ * HTML Structure:
+ * For <a>
  * <a class="mdc-icon-button" href="#" [target="_blank"]
  *  title="..."
  *  data-mdc-ripple-is-unbounded="true"
@@ -29,7 +39,7 @@ import {MDCRipple} from '@material/ripple';
  *  </svg>
  * </a>
  *
- * For type="button":
+ * For <button>:
  * <button type="button" class="mdc-icon-button"
  *  data-ear-href="#" [data-ear-target="_blank"]
  *  title="..."
@@ -56,14 +66,14 @@ export class EARMaterialIcon {
    * Build the icon and append to the root element
    * @param {DOMElement} root The DOM element to append the icon to.
    * @param {String} icon The @mdi/js icon path information
-   * @param {String} type The element type - a or button. Default: a (anchor).
+   * @param {String} tag The element tag - a or button. Default: a (anchor).
    */
-  constructor(root, icon, type = "a") {
+  constructor(root, icon, tag = "a") {
     this.container;
     this.icon;
     this.root = root;
-    this.type = type.toLowerCase();
-    switch (this.type) {
+    this.tag = tag.toLowerCase();
+    switch (this.tag) {
       case "a":
         this.attach(icon);
         break;
@@ -74,12 +84,12 @@ export class EARMaterialIcon {
         });
         break;
       default:
-        throw new Error(`EARMaterialIconException: Illegal container type - "${type}". Valid values are a and button.`);
+        throw new Error(`EARMaterialIconException: Illegal container type - "${tag}". Valid values are a and button.`);
     }
   }
 
   /**
-   * Add class to icon
+   * Add class to the MDC Icon Button
    * @param {String} value css class
    */
   addClass(value) {
@@ -88,21 +98,38 @@ export class EARMaterialIcon {
 
   /**
    * Build icon and attach to DOM
-   * @param {String} d The @mdi/js icon (path d attribute)
+   * @param {String} obj svg or The @mdi/js icon (path d attribute)
    */
-  attach(d) {
-    this.container = document.createElement(this.type);
+  attach(obj) {
+    this.container = document.createElement(this.tag);
     this.container.classList.add("mdc-icon-button");
     this.container.setAttribute("data-mdc-ripple-is-unbounded", true);
-    if (this.type == "button") {
-      this.container.setAttribute("type", this.type);
+    if (this.tag == "button") {
+      this.container.setAttribute("type", this.tag);
     }
+    if (typeof obj === "string") {
+      this.icon = obj.startsWith("<") ? this.parseSvg(obj) : this.buildSvg(obj);
+    } else {
+      this.icon = obj;
+    }
+    this.container.appendChild(this.icon);
+    this.root.appendChild(this.container);
+    const iconButtonRipple = new MDCRipple(this.container);
+    iconButtonRipple.unbounded = true;
     Object.defineProperty(this.container, "EARMaterialIcon", {
       configurable: true,
       enumerable: true,
       value: this,
       writable: true
     });
+  }
+
+  /**
+   * Build svg from @mdi/js path.d String
+   * @param {String} d The @mdi/js icon (path d attribute)
+   * @return {XML} svg
+   */
+  buildSvg(d) {
 
     const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
     const path1 = document.createElementNS("http://www.w3.org/2000/svg", 'path');
@@ -121,11 +148,8 @@ export class EARMaterialIcon {
 
     svg.appendChild(path1);
     svg.appendChild(path2);
-    this.icon = svg;
-    this.container.appendChild(this.icon);
-    this.root.appendChild(this.container);
-    const iconButtonRipple = new MDCRipple(this.container);
-    iconButtonRipple.unbounded = true;
+
+    return svg;
   }
 
 /**
@@ -137,7 +161,9 @@ export class EARMaterialIcon {
     event.preventDefault();
     const a = document.createElement("a");
     a.href = event.currentTarget.dataset.earHref;
-    a.setAttribute("target", event.currentTarget.dataset.earTarget);
+    if (event.currentTarget.dataset.earTarget) {
+      a.setAttribute("target", event.currentTarget.dataset.earTarget);
+    }
     a.click();
   }
 
@@ -152,8 +178,15 @@ export class EARMaterialIcon {
       this.container.addEventListener(evtType, handler, options);
   }
 
+  parseSvg(s) {
+    const template = document.createElement('template');
+    template.innerHTML = s;
+    const node = template.content.cloneNode(true);
+    return node.firstChild;
+  }
+
   /**
-   * Set an attribute value on the icon container (anchor (a) element)
+   * Set an attribute value on the MDC Icon Button
    * @param {String} name  The attribute name
    * @param {Object} value The attribute value
    */
@@ -162,13 +195,16 @@ export class EARMaterialIcon {
   }
 
   /**
-   * Set the href property of the icon container (anchor (a) element).
-   * The target attribute will automatically be set to _blank for
-   * values beginning with http.
-   * @param {String} url The href value
+   * Set the URL target for click events.
+   * For <a>, the href property of the MDC Icon Button
+   * or the data-ear-href attribute for <button>.
+   *
+   * The target attribute (<a>) or data-ear-target attribute (<button>)
+   * will automatically be set to _blank for values beginning with http.
+   * @param {String} url The url target for click events
    */
   setHref(url) {
-    if (this.type == "a") {
+    if (this.tag == "a") {
       this.container.href = url;
     } else {
       this.container.setAttribute("data-ear-href", url);
@@ -184,7 +220,7 @@ export class EARMaterialIcon {
    * @param {String} target The target value
    */
   setTarget(target) {
-    if (this.type == "a") {
+    if (this.tag == "a") {
       this.container.setAttribute("target", target);
     } else {
       this.container.setAttribute("data-ear-target", target);
