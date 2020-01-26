@@ -6,7 +6,7 @@
   "author": {
     "name": "Earl Rogers"
   },
-  "browser": "ear-material-icon.min.js",
+  "browser": "ear-material-icon.js",
   "browserslist": [
     "> 0.25%, not dead"
   ],
@@ -66,5 +66,5 @@
     "url": "git+hhttps://github.com/earlRogers/ear-material-icon.git",
     "directory": "packages/ear-material-icon"
   },
-  "version": "1.0.0"
+  "version": "1.0.1"
 }

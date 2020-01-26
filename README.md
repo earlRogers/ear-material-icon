@@ -5,7 +5,7 @@ The icon source can be an svg or an svg path.d attribute (@mdi/js).
 
 The icon will be inserted into a Material Design MDC Icon Button
 (@material/icon-button) and appended to a root element passed to the constructor.
-Note: The MDC Icon Button can be used with <button> and <a> tags.
+Note: The MDC Icon Button can be used with &lt;button&gt; and &lt;a&gt; tags.
 
  ```
  npm install ear-material-icon
@@ -42,7 +42,8 @@ Note: The MDC Icon Button can be used with <button> and <a> tags.
   href="#"
   title="..."
   data-mdc-ripple-is-unbounded="true"
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <svg xmlns="http://www.w3.org/2000/svg"
+    width="24" height="24" viewBox="0 0 24 24">
      <path d="M0 0h24v24H0z" fill="none"/>
      <path d="{@mdi/js icon}"/>
   </svg>
@@ -68,12 +69,13 @@ Signature | Description
 `addClass(cssClass:String) => void` | Add css class to the icon.
 `attach(obj:Object) => void` | Build icon and attach to DOM. obj is svg or path.d string.
 `buldSvg(d:String) => void` | Build svg incorporating @mdi/js path.d string.
-`setAttribute(name:String, value: Object) => void` | Set an attribute value on the icon container (<a> or <button>).
-`setHref(url:String) => void` | Set the href property of the icon container(<a> or <button>).
-`setTarget(target:String) => void` | Set the target attribute of the icon container (<a> or <button>).
-`setTitle(title:String) => void` | Set the title attribute of the icon container (<a> or <button>).
+`setAttribute(name:String, value: Object) => void` | Set an attribute value on the icon container (&lt;a&gt; or &lt;button&gt;).
+`setHref(url:String) => void` | Set the href property of the icon container(&lt;a&gt; or &lt;button&gt;).
+`setTarget(target:String) => void` | Set the target attribute of the icon container (&lt;a&gt; or &lt;button&gt;).
+`setTitle(title:String) => void` | Set the title attribute of the icon container (&lt;a&gt; or &lt;button&gt;).
 
- ## Related Packages
+
+## Related Packages
 
 - [Icon Buttons - Material Components for the Web](https://material.io/develop/web/components/buttons/icon-buttons/)
 - [Material Icons](https://material.io/resources/icons)
