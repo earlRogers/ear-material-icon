@@ -8,7 +8,7 @@ The icon will be inserted into a Material Design MDC Icon Button
 Note: The MDC Icon Button can be used with <button> and <a> tags.
 
  ```
- npm install earlRogers/ear-material-icon
+ npm install ear-material-icon
  ```
 
  ### JavaScript Instantiation
