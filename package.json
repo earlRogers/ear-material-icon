@@ -12,13 +12,11 @@
   ],
   "deprecated": false,
   "description": "Build Google MDC Icon Button (@material/icon-button) using material-design-icons or @mdi/js icons",
-  "devDependencies": {
-  },
+  "devDependencies": {},
   "dependencies": {
-    "@material/density": "^4.0.0",
-    "@material/icon-button": "^4.0.0",
-    "@material/ripple": "^4.0.0",
-    "@mdi/js": "^4.8.95"
+    "@material/icon-button": "^5.1.0",
+    "@material/ripple": "^5.1.0",
+    "@mdi/js": "^4.9.95"
   },
   "homepage": "https://github.com/earlRogers/ear-material-icon/blob/master/README.md",
   "keywords": [
@@ -37,5 +35,5 @@
     "url": "git+hhttps://github.com/earlRogers/ear-material-icon.git",
     "directory": "packages/ear-material-icon"
   },
-  "version": "1.0.1"
+  "version": "1.1.0"
 }
