@@ -1158,7 +1158,9 @@ class EARMaterialIcon {
     event.preventDefault();
     const a = document.createElement("a");
     a.href = event.currentTarget.dataset.earHref;
-    a.setAttribute("target", event.currentTarget.dataset.earTarget);
+    if (event.currentTarget.dataset.earTarget) {
+      a.setAttribute("target", event.currentTarget.dataset.earTarget);
+    }
     a.click();
   }
 
@@ -1244,4 +1246,4 @@ class EARMaterialIcon {
 }
 
 export { EARMaterialIcon };
-//# sourceMappingURL=ear-material-icon.1.0.0.jsm.map
+//# sourceMappingURL=ear-material-icon.1.0.1.jsm.map
